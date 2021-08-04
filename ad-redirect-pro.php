@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: Ad Redirect Pro
-Description: Adsense Redirect Plugin for Kofem Media
-Version: 1.0
-Author: Oluwaseun Raphael Afolayan
+Plugin name: Kofem Media Redirect Plugin
+Plugin URI: http://example.com/wordpress-kofem-media-redirect
+Description: A plugin to add redirect to pages
+Author: Theafolayan
 Author URI: https://theafolayan.com
+Version: 0.5
 */
-
 
 // Call kofem_media_redirect_menu function to load plugin menu in dashboard
 add_action( 'admin_menu', 'kofem_media_redirect_menu' );
@@ -14,13 +14,13 @@ add_action( 'admin_menu', 'kofem_media_redirect_menu' );
 // Create WordPress admin menu
 function kofem_media_redirect_menu(){
 
-  $page_title = 'Ad Redirect Pro For Kofem media';
-  $menu_title = 'Ad Redirect Pro Settings';
+  $page_title = 'Kofem Media Redirect';
+  $menu_title = 'Redirect Settings';
   $capability = 'manage_options';
-  $menu_slug  = 'extra-post-info';
+  $menu_slug  = 'kofem-media-redirect';
   $function   = 'kofem_media_redirect_page';
-  $icon_url   = 'dashicons-admin-site-alt';
-  $position   = 20;
+  $icon_url   = 'dashicons-controls-repeat';
+  $position   = 14;
 
   add_menu_page( $page_title,
                  $menu_title,
@@ -37,25 +37,21 @@ function kofem_media_redirect_menu(){
 
 // Create function to register plugin settings in the database
 function update_kofem_media_redirect() {
-  register_setting( 'extra-post-info-settings', 'kofem_media_redirect' );
+  register_setting( 'kofem-media-redirect-settings', 'kofem_media_redirect' );
 }
 
 // Create WordPress plugin page
 function kofem_media_redirect_page(){
 ?>
-  <h1>Ad RedirectPro For Kofem media</h1>
+  <h1>Kofem Media Redirect</h1>
   <form method="post" action="options.php">
-    <?php settings_fields( 'extra-post-info-settings' ); ?>
-    <?php do_settings_sections( 'extra-post-info-settings' ); ?>
+    <?php settings_fields( 'kofem-media-redirect-settings' ); ?>
+    <?php do_settings_sections( 'kofem-media-redirect-settings' ); ?>
     <table class="form-table">
       <tr valign="top">
       <th scope="row">Next Redirect URL:</th>
       <td><input type="text" name="kofem_media_redirect" value="<?php echo get_option('kofem_media_redirect'); ?>"/></td>
-      <br>
-      
       </tr>
-      <tr>  <th scope="row">Seconds to delay:</th>
-      <td><input type="number" name="kofem_media_redirect" value="<?php echo get_option('kofem_media_redirect'); ?>"/></td></tr>
     </table>
   <?php submit_button(); ?>
   </form>
@@ -75,3 +71,9 @@ if( !function_exists("kofem_media_redirect") )
 // Apply the kofem_media_redirect function on our content  
 add_filter('the_content', 'kofem_media_redirect');
 }
+
+function enqueue_scripts(){
+    wp_enqueue_script('vue', 'https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js', [], '2.5.17');       
+ }
+
+?>
