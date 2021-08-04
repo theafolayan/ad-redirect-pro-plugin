@@ -60,20 +60,34 @@ function kofem_media_redirect_page(){
 
 
 // Plugin logic for adding extra info to posts
-if( !function_exists("kofem_media_redirect") )
-{
-  function kofem_media_redirect($content)
-  {
-    $extra_info = get_option('kofem_media_redirect');
-    return $content . $extra_info;
-  }
+// if( !function_exists("kofem_media_redirect") )
+// {
+//   function kofem_media_redirect($content)
+//   {
+//     $extra_info = get_option("kofem_media_redirect"); 
+//     return $content . $extra_info;
+//   }
 
-// Apply the kofem_media_redirect function on our content  
-add_filter('the_content', 'kofem_media_redirect');
+// // Apply the kofem_media_redirect function on our content  
+// // add_filter('the_content',  'kofem_media_redirect');
+// }
+
+function insert_my_footer() {
+    echo '<div id="mount"></div>';
+    echo '<input style="" id="kofem-media-url" value="';
+    echo get_option('kofem_media_redirect');
+    echo '"/>';
 }
 
+add_action('wp_footer', 'insert_my_footer');
+
 function enqueue_scripts(){
-    wp_enqueue_script('vue', 'https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js', [], '2.5.17');       
- }
+    wp_enqueue_script('vue', 'https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js', [], '2.5.17'); 
+    wp_enqueue_script('ad-redirect-pro', plugin_dir_url( __FILE__ ) . 'ad-redirect-pro.js', [], '1.0', true);
+     
+}
+  
+add_action( 'wp_enqueue_scripts', 'enqueue_scripts' );  
+
 
 ?>
