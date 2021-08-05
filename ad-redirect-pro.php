@@ -15,7 +15,7 @@ add_action( 'admin_menu', 'kofem_media_redirect_menu' );
 function kofem_media_redirect_menu(){
 
   $page_title = 'Kofem Media Redirect';
-  $menu_title = 'Redirect Settings';
+  $menu_title = 'Koem Media Redirect Settings';
   $capability = 'manage_options';
   $menu_slug  = 'kofem-media-redirect';
   $function   = 'kofem_media_redirect_page';
@@ -77,6 +77,7 @@ function insert_my_footer() {
     echo '<input style="" id="kofem-media-url" value="';
     echo get_option('kofem_media_redirect');
     echo '"/>';
+
 }
 
 add_action('wp_footer', 'insert_my_footer');
