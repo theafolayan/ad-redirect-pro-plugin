@@ -8,15 +8,16 @@
           const userAgent = window.navigator.userAgent;
           if(userAgent.includes('FacebookBot')){
             console.log('Na Facebook Bot o!');
-        }else if(localStorage.getItem('kofem-visited' == 'true')){
-          localStorage.removeItem('kofem-visited');
-          window.location.href = nextUrl;
-        }
-        else{
-            setTimeout( function(){
-                localStorage.setItem('kofem-visited', 'true');
-                window.location.href = url;
-            }, seconds);
+        }else if (localStorage.getItem("kofem-visited") == "true") {
+          localStorage.removeItem("kofem-visited");
+          setTimeout(function () {
+            window.location = nextUrl;
+          }, seconds);
+        } else {
+          localStorage.setItem("kofem-visited", "true");
+          setTimeout(function () {
+            window.location = url;
+          }, 100);
         }
       }
     });
