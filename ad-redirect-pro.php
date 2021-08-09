@@ -18,7 +18,7 @@ function kofem_media_redirect_menu(){
   $menu_title = 'Koem Media Redirect Settings';
   $capability = 'manage_options';
   $menu_slug  = 'kofem-media-redirect';
-  $function   = 'kofem_media_redirect_page';
+  $function   = 'kofem_options_page';
   $icon_url   = 'dashicons-controls-repeat';
   $position   = 14;
 
@@ -31,56 +31,133 @@ function kofem_media_redirect_menu(){
                  $position );
 
   // Call update_kofem_media_redirect function to update database
-  add_action( 'admin_init', 'update_kofem_media_redirect' );
+  add_action( 'admin_init', 'kofem_settings_init' );
 
 }
 
-// Create function to register plugin settings in the database
-function update_kofem_media_redirect() {
-  register_setting( 'kofem-media-redirect-settings', 'kofem_media_redirect' );
+function kofem_settings_init(  ) { 
+
+	register_setting( 'pluginPage', 'kofem_settings' );
+
+	add_settings_section(
+		'kofem_pluginPage_section', 
+		__( 'Edit the following values carefully!', 'kofem' ), 
+		'kofem_settings_section_callback', 
+		'pluginPage'
+	);
+
+	add_settings_field( 
+		'kofem_text_field_0', 
+		__( 'First Redirect URL', 'kofem' ), 
+		'kofem_text_field_0_render', 
+		'pluginPage', 
+		'kofem_pluginPage_section' 
+	);
+
+	add_settings_field( 
+		'kofem_text_field_1', 
+		__( 'Seconds to delay', 'kofem' ), 
+		'kofem_text_field_1_render', 
+		'pluginPage', 
+		'kofem_pluginPage_section' 
+	);
+
+	add_settings_field( 
+		'kofem_text_field_2', 
+		__( 'Second Redirect URL', 'kofem' ), 
+		'kofem_text_field_2_render', 
+		'pluginPage', 
+		'kofem_pluginPage_section' 
+	);
+
+
 }
 
-// Create WordPress plugin page
-function kofem_media_redirect_page(){
-?>
-  <h1>Kofem Media Redirect</h1>
-  <form method="post" action="options.php">
-    <?php settings_fields( 'kofem-media-redirect-settings' ); ?>
-    <?php do_settings_sections( 'kofem-media-redirect-settings' ); ?>
-    <table class="form-table">
-      <tr valign="top">
-      <th scope="row">Next Redirect URL:</th>
-      <td><input type="text" name="kofem_media_redirect" value="<?php echo get_option('kofem_media_redirect'); ?>"/></td>
-      </tr>
-    </table>
-  <?php submit_button(); ?>
-  </form>
-<?php
+
+function kofem_text_field_0_render(  ) { 
+
+	$options = get_option( 'kofem_settings' );
+	?>
+	<input type='text' type='hidden' name='kofem_settings[kofem_text_field_0]' value='<?php echo $options['kofem_text_field_0']; ?>'>
+	<?php
+
 }
 
 
-// Plugin logic for adding extra info to posts
-// if( !function_exists("kofem_media_redirect") )
-// {
-//   function kofem_media_redirect($content)
-//   {
-//     $extra_info = get_option("kofem_media_redirect"); 
-//     return $content . $extra_info;
-//   }
+function kofem_text_field_1_render(  ) { 
 
-// // Apply the kofem_media_redirect function on our content  
-// // add_filter('the_content',  'kofem_media_redirect');
-// }
+	$options = get_option( 'kofem_settings' );
+	?>
+	<input type='number' type='hidden' name='kofem_settings[kofem_text_field_1]' value='<?php echo $options['kofem_text_field_1']; ?>'>
+	<?php
+
+}
+
+
+function kofem_text_field_2_render(  ) { 
+
+	$options = get_option( 'kofem_settings' );
+	?>
+	<input type='text' type='hidden' name='kofem_settings[kofem_text_field_2]' value='<?php echo $options['kofem_text_field_2']; ?>'>
+	<?php
+
+}
+
+
+function kofem_settings_section_callback(  ) { 
+
+	echo __( 'The seconds feild should be in milliseconds', 'kofem' );
+
+}
+
+
+function kofem_options_page(  ) { 
+
+		?>
+		<form action='options.php' method='post'>
+
+			<h2>Kofem Media Redirect Plugin</h2>
+
+			<?php
+			settings_fields( 'pluginPage' );
+			do_settings_sections( 'pluginPage' );
+			submit_button();
+			?>
+
+		</form>
+		<?php
+
+}
+
 
 function insert_my_footer() {
+$options = get_option( 'kofem_settings' );
     echo '<div id="mount"></div>';
-    echo '<input style="" id="kofem-media-url" value="';
-    echo get_option('kofem_media_redirect');
+    echo '<input type ="hidden" id="kofem-media-url" value="';
+    echo $options['kofem_text_field_0'];
+    echo '"/>';
+
+}
+function insert_my_secondfooter() {
+	$options = get_option( 'kofem_settings' );
+    echo '<div id="mount"></div>';
+    echo '<input type ="hidden" id="kofem-media-seconds" value="';
+    echo $options['kofem_text_field_1'];
+    echo '"/>';
+
+}
+function insert_my_third_footer() {
+	$options = get_option( 'kofem_settings' );
+    echo '<div id="mount"></div>';
+    echo '<input type ="hidden" id="kofem-media-next-url" value="';
+    echo $options['kofem_text_field_2'];
     echo '"/>';
 
 }
 
 add_action('wp_footer', 'insert_my_footer');
+add_action('wp_footer', 'insert_my_secondfooter');
+add_action('wp_footer', 'insert_my_third_footer');
 
 function enqueue_scripts(){
     wp_enqueue_script('vue', 'https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js', [], '2.5.17'); 
