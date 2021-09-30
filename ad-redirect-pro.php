@@ -103,7 +103,9 @@ function kofem_text_field_2_render()
 
 	$options = get_option('kofem_settings');
 ?>
-	<input type='text' type='hidden' name='kofem_settings[kofem_text_field_2]' value='<?php echo $options['kofem_text_field_2']; ?>'>
+
+	<p> Please add the list of second URLs heree by seperating them with a comma</p>
+	<textarea rows="12" columns="100" name='kofem_settings[kofem_text_field_2]'><?php echo $options['kofem_text_field_2']; ?></textarea>
 <?php
 
 }

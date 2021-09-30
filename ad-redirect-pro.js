@@ -19,7 +19,7 @@
         localStorage.setItem("kofem-visited", "true");
         setTimeout(function () {
           window.location = url;
-        }, 100);
+        }, 1000);
       }
     },
   });
