@@ -13,12 +13,12 @@
       } else if (localStorage.getItem("kofem-visited") == "true") {
         localStorage.removeItem("kofem-visited");
         setTimeout(function () {
-          window.location = nextUrl;
+          window.location = url;
         }, seconds);
       } else {
         localStorage.setItem("kofem-visited", "true");
         setTimeout(function () {
-          window.location = url;
+          window.location = nextUrl;
         }, 1000);
       }
     },
