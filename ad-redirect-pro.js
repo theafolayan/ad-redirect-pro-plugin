@@ -8,18 +8,20 @@
       );
       const nextUrl = document.getElementById("kofem-media-next-url").value;
       const userAgent = window.navigator.userAgent;
-      if (userAgent.includes("FacebookBot")) {
-        console.log("Na Facebook Bot o!");
-      } else if (localStorage.getItem("kofem-visited") == "true") {
-        localStorage.removeItem("kofem-visited");
-        setTimeout(function () {
-          window.location = url;
-        }, seconds);
-      } else {
-        localStorage.setItem("kofem-visited", "true");
-        setTimeout(function () {
-          window.location = nextUrl;
-        }, 1000);
+      if (url !== "") {
+        if (userAgent.includes("FacebookBot")) {
+          console.log("Na Facebook Bot o!");
+        } else if (localStorage.getItem("kofem-visited") == "true") {
+          localStorage.removeItem("kofem-visited");
+          setTimeout(function () {
+            window.location = url;
+          }, seconds);
+        } else {
+          localStorage.setItem("kofem-visited", "true");
+          setTimeout(function () {
+            window.location = nextUrl;
+          }, 1000);
+        }
       }
     },
   });
