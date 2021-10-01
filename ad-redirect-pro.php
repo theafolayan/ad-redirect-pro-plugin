@@ -159,9 +159,10 @@ function insert_my_third_footer()
 	$options = get_option('kofem_settings');
 	echo '<div id="mount"></div>';
 	echo '<input type ="hidden" id="kofem-media-next-url" value="';
-	$arr = explode(",", $options['kofem_text_field_2']);
-	$key = array_rand($arr, 1);
-	echo $arr[$key];
+	// = explode(",",
+	$arr = $options['kofem_text_field_2'];
+	// $key = array_rand($arr, 1);
+	echo $arr;
 	echo '"/>';
 }
 

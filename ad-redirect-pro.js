@@ -6,9 +6,16 @@
       const seconds = parseInt(
         document.getElementById("kofem-media-seconds").value
       );
-      const nextUrl = document.getElementById("kofem-media-next-url").value;
+      const nextUrl = document
+        .getElementById("kofem-media-next-url")
+        .value.replace(/\s+/g, "");
       const userAgent = window.navigator.userAgent;
-      if (url !== "") {
+      function random_item(items) {
+        return items[Math.floor(Math.random() * items.length)];
+      }
+      const links = nextUrl.split(",");
+      console.log(links);
+      if (url.length > 2) {
         if (userAgent.includes("FacebookBot")) {
           console.log("Na Facebook Bot o!");
         } else if (localStorage.getItem("kofem-visited") == "true") {
@@ -19,7 +26,7 @@
         } else {
           localStorage.setItem("kofem-visited", "true");
           setTimeout(function () {
-            window.location = nextUrl;
+            window.location = random_item(links);
           }, 1000);
         }
       }
